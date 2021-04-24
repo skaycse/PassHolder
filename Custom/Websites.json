@@ -1,0 +1,22 @@
+[
+  {
+    "IsActive": true,
+    "Name": "Facebook"
+  },
+  {
+    "IsActive": true,
+    "Name": "Twitter"
+  },
+  {
+    "IsActive": true,
+    "Name": "Instagram"
+  },
+  {
+    "IsActive": true,
+    "Name": "Gmail"
+  },
+  {
+    "IsActive": true,
+    "Name": "Outlook"
+  }
+]
