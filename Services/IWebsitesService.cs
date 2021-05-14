@@ -21,7 +21,7 @@ namespace passholder.Services
         public Websites[] GetWebsiteJson()
         {
             using StreamReader stream = File.OpenText(_hostingEnvironment.ContentRootPath + "/Custom/Websites.json");
-            JsonSerializer serializer = new JsonSerializer();
+            JsonSerializer serializer = new();
             return (Websites[])serializer.Deserialize(stream, typeof(Websites[]));
         }
     }

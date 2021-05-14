@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using passholder.Context;
 
 namespace passholder.Migrations
 {
     [DbContext(typeof(PassDbContext))]
-    partial class PassDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425155616_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +69,8 @@ namespace passholder.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserCred");
                 });
@@ -108,8 +111,8 @@ namespace passholder.Migrations
             modelBuilder.Entity("passholder.Models.UserCred", b =>
                 {
                     b.HasOne("passholder.Models.User", null)
-                        .WithMany("UserCred")
-                        .HasForeignKey("UserId")
+                        .WithOne("UserCred")
+                        .HasForeignKey("passholder.Models.UserCred", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

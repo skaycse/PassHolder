@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using passholder.Models;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace passholder.Models
 {
@@ -16,6 +12,7 @@ namespace passholder.Models
         public string Email { get; set; }
         public bool IsActive { get; set; } = true;
         public UserLogin Login { get; set; }
+        public List<UserCred> UserCred { get; set; }
     }
 
     public class UserLogin : BaseModel

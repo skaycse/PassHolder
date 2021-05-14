@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,13 +32,27 @@ namespace passholder
             services.AddDbContext<PassDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                    })
+                    .AddCookie()
+                    .AddGoogle(options =>
+                    {
+                        options.ClientId = Configuration["Authentication:Google:client_id"];
+                        options.ClientSecret = Configuration["Authentication:Google:client_secret"];
+                    });
             services.AddControllersWithViews();
 
             services.AddTransient(typeof(ISqlRepository<>), typeof(SqlRepository<>));
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserLoginRepository, UserLoginRepository>();
             services.AddScoped<IWebsitesService, WebsitesService>();
+
+            services.AddScoped<ICredentialService, CredentialService>();
+            services.AddScoped<ICredentialRepository, CredentialRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +73,7 @@ namespace passholder
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
